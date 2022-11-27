@@ -26,14 +26,14 @@ export default class ApplicationRoute extends Route {
           toastNotificationTimeoutOptions
         );
         // added setTimeout here because before new page opens user should be notified of error by toast
-        setTimeout(
-          () =>
-            window.open(
-              'https://github.com/login/oauth/authorize?client_id=23c78f66ab7964e5ef97',
-              '_self'
-            ),
-          2000
-        );
+        setTimeout(() => {
+          let authUrl =
+            'https://github.com/login/oauth/authorize?client_id=23c78f66ab7964e5ef97';
+          if (typeof window !== 'undefined') {
+            authUrl = `https://github.com/login/oauth/authorize?client_id=23c78f66ab7964e5ef97&state=${window.location.href}`;
+          }
+          window.open(authUrl, '_self');
+        }, 2000);
       }
     } catch (error) {
       console.error(error.message);
